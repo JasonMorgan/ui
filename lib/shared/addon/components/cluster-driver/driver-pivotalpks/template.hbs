@@ -1,0 +1,146 @@
+{{#if (eq step 1)}}
+  <div class="row">
+  <label class="acc-label col span-3">{{t 'clusterNew.pivotalpks.apiAddress.label'}}
+    {{input
+        value=config.apiAddress
+        placeholder=(t 'clusterNew.pivotalpks.apiAddress.placeholder')
+    }}
+  </label>
+  <label class="acc-label col span-3">{{t 'clusterNew.pivotalpks.username.label'}}
+    {{input
+        value=config.username
+        placeholder=(t 'clusterNew.pivotalpks.username.placeholder')
+    }}
+  </label>
+  <label class="acc-label col span-3">{{t 'clusterNew.pivotalpks.password.label'}}
+    {{input
+        value=config.password
+        placeholder=(t 'clusterNew.pivotalpks.password.placeholder')
+    }}
+  </label>
+  <label class="acc-label col span-12">{{t 'clusterNew.pivotalpks.insecure.label'}}
+    {{input
+        checked=config.skipSSL
+        type="checkbox"
+    }}
+  </label>
+</div>
+
+  {{top-errors errors=errors}}
+  {{save-cancel
+      createLabel="clusterNew.pivotalpks.checkServiceAccount"
+      savingLabel="clusterNew.pivotalpks.checkingServiceAccount"
+      save=(action "checkServiceAccount")
+      cancel=close
+  }}
+
+{{else}}
+  {{#accordion-list showExpandAll=false as |al expandFn|}}
+    {{#accordion-list-item
+         title=(t 'clusterNew.customize.title')
+         detail=(t 'clusterNew.customize.detail')
+         everExpanded=true
+         expandAll=al.expandAll
+         expand=(action expandFn)
+    }}
+      <div class="row">
+        <div class="col span-6">
+          <label class="acc-label">{{t 'clusterNew.pivotalpks.masterVersion.label'}}</label>
+          {{new-select
+              classNames="form-control"
+              content=versionChoices
+              optionValuePath="value"
+              optionLabelPath="value"
+              value=config.masterVersion
+              prompt="clusterNew.pivotalpks.masterVersion.prompt"
+              localizedPrompt=true
+          }}
+        </div>
+        <div class="col span-6">
+          <label class="acc-label">{{t 'clusterNew.pivotalpks.clusterIpv4Cidr.label'}}</label>
+          {{input value=config.clusterIpv4Cidr placeholder=(t 'clusterNew.pivotalpks.clusterIpv4Cidr.placeholder') disabled=editing}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col span-6">
+          <label class="acc-label">{{t 'clusterNew.pivotalpks.alphaFeatures.label'}}</label>
+          <div class="form-control-static">
+            <label class="mr-20 hand">
+              {{radio-button selection=config.enableAlphaFeature value=true disabled=editing}} {{t 'generic.enabled'}}
+            </label>
+            <label class="hand">
+              {{radio-button selection=config.enableAlphaFeature value=false disabled=editing}} {{t 'generic.disabled'}}
+            </label>
+          </div>
+        </div>
+      </div>
+    {{/accordion-list-item}}
+
+    {{#accordion-list-item
+         title=(t 'clusterNew.nodes.title')
+         detail=(t 'clusterNew.nodes.detail')
+         showExpand=false
+         expandOnInit=true
+         expandAll=al.expandAll
+         expand=(action expandFn)
+    }}
+      <div class="row">
+        <div class="col span-6">
+          <label class="acc-label">{{t 'clusterNew.pivotalpks.zone.label'}}</label>
+          {{#if editing}}
+            {{config.zone}}
+          {{else}}
+            {{new-select
+                classNames="form-control"
+                optionValuePath="name"
+                optionLabelPath="name"
+                content=zoneChoices
+                value=config.zone
+                prompt="clusterNew.pivotalpks.zone.prompt"
+                localizedPrompt=true
+            }}
+          {{/if}}
+        </div>
+        <div class="col span-6">
+          <label class="acc-label">{{t 'clusterNew.pivotalpks.machineType.label'}}</label>
+          {{#if editing}}
+            <div>
+              {{editedMachineChoice.displayName}}
+            </div>
+          {{else}}
+            {{new-select
+                classNames="form-control"
+                optionValuePath="name"
+                optionLabelPath="displayName"
+                content=machineChoices
+                value=config.machineType
+                prompt="clusterNew.pivotalpks.machineType.prompt"
+                localizedPrompt=true
+            }}
+          {{/if}}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col span-6">
+          <label class="acc-label">{{t 'clusterNew.pivotalpks.nodeCount.label'}}</label>
+          {{input-number min=1 value=config.nodeCount}}
+        </div>
+        <div class="col span-6">
+          <label class="acc-label">{{t 'clusterNew.pivotalpks.diskSizeGb.label'}}</label>
+          <div class="input-group">
+            {{#if editing}}
+              {{config.diskSizeGb}}{{t 'generic.gigabyte'}}
+            {{else}}
+              {{input-number min=1 value=config.diskSizeGb}}
+              <span class="input-group-addon bg-default">{{t 'generic.gigabyte'}}</span>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+    {{/accordion-list-item}}
+  {{/accordion-list}}
+
+  {{top-errors errors=errors}}
+  {{save-cancel editing=(eq mode 'edit')  save="driverSave" cancel=close}}
+{{/if}}

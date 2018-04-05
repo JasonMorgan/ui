@@ -1759,6 +1759,50 @@ clusterNew:
       placeholder: e.g. 10.42.0.0/16
     alphaFeatures:
       label: Alpha Features
+  pivotalpks:
+    label: Pivotal Container Service
+    shortLabel: PKS
+    checkServiceAccount: "Next: Configure Nodes"
+    checkingServiceAccount: Authenticating...
+    credential:
+      label: testing 123
+      placeholder: this is the placeholder text
+      configured: Configured for {project} project
+      helpText: |
+        Help text goes here.
+    zone:
+      label: Zone
+      prompt: Choose a Zone...
+    project:
+      label: Project
+      placeholder: e.g. my-project
+    machineType:
+      label: Machine Type
+      prompt: Choose a Type...
+    nodeCount:
+      label: Node Count
+      prompt: Choose a Type...
+    diskSizeGb:
+      label: Root Disk Size
+    masterVersion:
+      label: Kubernetes Version
+      prompt: Choose a Version...
+    clusterIpv4Cidr:
+      label: Container Address Range
+      placeholder: e.g. 10.42.0.0/16
+    apiAddress:
+      label: API Address
+      placeholder: e.g. api.pks.example.com
+    username:
+      label: Username
+      placeholder: e.g. alana
+    password:
+      label: Password
+      placeholder: e.g. my-password
+    insecure:
+      label: Skip SSL validation
+    alphaFeatures:
+      label: Alpha Features
   rke:
     label: '{appName} Kubernetes Engine'
     shortLabel: RKE
